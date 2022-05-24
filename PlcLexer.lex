@@ -29,6 +29,17 @@ fun init() = ()
 %%
 %header (functor PlcLexerFun(structure Tokens: PlcParser_TOKENS));
 digit=[0-9];
+name=[a-z A-Z "_"][a-z A-Z "_" 0-9]*;
+ws = [\ \t];
+
 %%
-";"       => (pos := (!pos) + 1; Tokens.EOF(!pos, !pos));
-{digit}+ => (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos));
+
+{ws}+       => (lex());
+{digit}+    => (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos));
+{name}+     => (case yytext of
+                    "var" => Tokens.VAR (!pos, !pos)
+                |   _ => Tokens.NAME (yytext, !pos, !pos));
+"="         => (Tokens.OPequal (!pos, !pos));
+"+"         => (Tokens.OPplus (!pos, !pos));
+"var"       => (Tokens.VAR (!pos, !pos));
+";"         => (Tokens.OPsemicolon(!pos, !pos));
