@@ -1,0 +1,7 @@
+A partir da linha 98
+
+
+
+63 reduce/reduce conflicts
+91 shift/reduce conflicts
+1 rule not reduced

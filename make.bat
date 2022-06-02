@@ -1,7 +1,7 @@
 cls
 @echo off
-del PlcParser.yacc.sml
-del PlcParser.yacc.sig
+del PlcParser.y.sml
+del PlcParser.y.sig
 del PlcLexer.lex.sml
 
-ml-yacc PlcParser.yacc && ml-lex PlcLexer.lex
+ml-yacc PlcParser.y && ml-lex PlcLexer.lex

@@ -6,8 +6,8 @@ CM.make("$/ml-yacc-lib.cm");
 use "Environ.sml";
 use "Absyn.sml";
 use "PlcParserAux.sml";
-use "PlcParser.yacc.sig";
-use "PlcParser.yacc.sml";
+use "PlcParser.y.sig";
+use "PlcParser.y.sml";
 use "PlcLexer.lex.sml";
 
 use "Parse.sml";
@@ -17,10 +17,11 @@ Control.Print.printDepth  := 1000;
 Control.Print.stringDepth := 1000;
 
 open PlcFrontEnd;
-(*
+
 fromString "15";
 fromString "true";
 fromString "()";
+fromString "(6,false)";
 fromString "(6,false)[1]";
 fromString "([Bool] [])";
 fromString "print x; true";
@@ -30,7 +31,7 @@ fromString "var x = 9; x + 3";
 fromString "fun f(Int x) = x; f(1)";
 fromString "match x with | 0 -> 1| _ -> -1 end";
 fromFile ("example.plc");
-
+(*)
 use "testParserCases.sml"*)
 
 (* Try to add a systematic way of using the test cases in
