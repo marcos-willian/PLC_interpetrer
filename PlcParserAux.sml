@@ -6,7 +6,13 @@ fun makeFunAux (n: int, xs: (plcType * string) list, e: expr): expr =
 
 (* Create the list of arguments of a function. *)
 fun makeType (args: (plcType * string) list): plcType =
-    ListT [] (* TODO *)
+    let fun auxType (argsAux: (plcType * string) list) =
+      case argsAux of
+        [] => []
+      | _ => map #1 argsAux
+    in
+        ListT(auxType args)
+    end;
 
 (* Create a function expression. *)
 fun makeFun (f: string, xs: (plcType * string) list, rt: plcType, e1: expr, e2: expr): expr =
@@ -36,3 +42,4 @@ fun makeAnon (xs:(plcType * string) list, e:expr):expr =
           Anon(t,"$list",e')
         end
       end;
+
