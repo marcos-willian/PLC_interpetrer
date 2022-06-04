@@ -2,7 +2,10 @@
 
 (* Creat the body of a function expression. *)
 fun makeFunAux (n: int, xs: (plcType * string) list, e: expr): expr =
-    e (* TODO *)
+    case xs of
+        (t,x)::[] => Let(x,Item(n, Var "$list"),e)
+        | (t,x)::v => Let(x,Item(n, Var "$list"),makeFunAux((n+1),v,e))
+        | [] => e
 
 (* Create the list of arguments of a function. *)
 fun makeType (args: (plcType * string) list): plcType =
@@ -42,4 +45,3 @@ fun makeAnon (xs:(plcType * string) list, e:expr):expr =
           Anon(t,"$list",e')
         end
       end;
-
