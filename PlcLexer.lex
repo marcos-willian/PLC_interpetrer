@@ -31,12 +31,12 @@ fun init() = ()
 digit=[0-9];
 name=[a-z A-Z "_"][a-z A-Z "_" 0-9]*;
 ws = [\ \t \n];
-comment = "(*"[.]*"*)";
+comment = "(*".+"*)";
 
 %%
 
 {ws}+       => (lex());
-{comment}   => (lex());
+{comment}+   => (lex());
 {digit}+    => (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos));
 {name}+     => (case yytext of
                     "fun" => Tokens.FUN (!pos, !pos)

@@ -6,11 +6,13 @@
 %pos int
 
 %term  NUM of int | NAME of string | TRUE | FALSE 
-    |  OPnot  | OPminus | HD | TL | ISE | PRINT | OPdisjun | OPplus | OPtimes | OPdiv | OPequal | OPVbar
-    | OPdiff | OPless | OPlessEq | OP2cons | OPsemicolon | OParrow | OP2arrow | OPcons | OPunder | OPcolon
+    |  OPnot  | OPminus | HD | TL | ISE | PRINT 
+    | OPdisjun | OPplus | OPtimes | OPdiv | OPequal | OPVbar
+    | OPdiff | OPless | OPlessEq | OP2cons | OPsemicolon 
+    | OParrow | OP2arrow | OPcons | OPunder | OPcolon
     |  Lbrace | Rbrace | Lpar | Rpar | Lbracket | Rbracket 
-    |  FUN  | REC | IF | THEN | ELSE | MATCH | WITH | VAR | FN | END | NIL | BOOL | INT 
-    |  EOF  
+    |  FUN  | REC | IF | THEN | ELSE | MATCH | WITH | VAR | FN 
+    | END | NIL | BOOL | INT |  EOF  
 
 %right OPsemicolon OParrow
 %nonassoc IF 
@@ -25,9 +27,13 @@
 %left Lbracket
 
 %keyword FUN REC IF THEN ELSE MATCH WITH VAR FN END NIL BOOL INT FALSE TRUE HD TL PRINT OPunder ISE
-%nonterm PLC of expr | prog of expr | EXPR of expr  | decl of expr | args of (plcType*string) list | TYPE of plcType | atomicExpr of expr | appExpr of expr 
-        |matchExpr of (expr option * expr) list | condExpr of expr option
-        |const of expr | comps of expr list| typedVar of plcType*string | params of (plcType*string) list | types of plcType list| atomicType of plcType
+%nonterm PLC of expr | prog of expr | EXPR of expr  | decl of expr 
+        | args of (plcType*string) list | TYPE of plcType 
+        | atomicExpr of expr | appExpr of expr 
+        | matchExpr of (expr option * expr) list 
+        | condExpr of expr option | const of expr | comps of expr list
+        | typedVar of plcType*string | params of (plcType*string) list 
+        | types of plcType list| atomicType of plcType
 
 %eop EOF 
 
