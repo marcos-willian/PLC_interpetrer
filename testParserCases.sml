@@ -1,4 +1,19 @@
+CM.make("$/basis.cm");
+CM.make("$/ml-yacc-lib.cm");
+
+use "Environ.sml";
 use "Absyn.sml";
+use "PlcParserAux.sml";
+use "PlcParser.y.sig";
+use "PlcParser.y.sml";
+use "PlcLexer.lex.sml";
+use "Parse.sml";
+
+Control.Print.printLength := 1000;
+Control.Print.printDepth  := 1000;
+Control.Print.stringDepth := 1000;
+
+open PlcFrontEnd;
 
 val cases =
   (
@@ -396,7 +411,7 @@ val cases =
         (s, e)
     end
   ) ::
-  (
+  ( 
     let val s = "fun rec mem(Int x, [Int] l): Bool = if ise(l) then false else if x = hd(l) then true else mem(x, tl(l)); mem(2, 1::2::([Int] []))";
         val e = Letrec ("mem",ListT [IntT, SeqT IntT], "$list", BoolT, Let ("x",Item (1, Var "$list"), Let ("l",Item (2, Var "$list"),If (Prim1 ("ise",Var "l"),ConB false,If (Prim2 ("=",Var "x",Prim1 ("hd",Var "l")),ConB true, Call (Var "mem",List [Var "x", Prim1 ("tl",Var "l")]))))),Call (Var "mem", List [ConI 2, Prim2 ("::",ConI 1,Prim2 ("::",ConI 2,ESeq (SeqT IntT)))]))
     in
@@ -439,3 +454,12 @@ val cases =
         (s, e)
     end
   ) ];
+
+
+fun result (d:(string * expr) list) = 
+    case d of 
+         h::[] => (fromString (#1 h) = (#2 h))::[]
+      |  h::t => (fromString (#1 h) = #2 h)::result(t);
+
+result cases;
+

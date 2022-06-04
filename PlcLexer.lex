@@ -31,12 +31,13 @@ fun init() = ()
 digit=[0-9];
 name=[a-z A-Z "_"][a-z A-Z "_" 0-9]*;
 ws = [\ \t \n];
-comment = "(*".+"*)";
+anyChar = .;
+comment = "(*"{anyChar}*"*)";
 
 %%
 
-{ws}+       => (lex());
 {comment}+   => (lex());
+{ws}+       => (lex());
 {digit}+    => (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos));
 {name}+     => (case yytext of
                     "fun" => Tokens.FUN (!pos, !pos)
@@ -58,7 +59,7 @@ comment = "(*".+"*)";
                 |   "tl" => Tokens.TL(!pos,!pos)
                 |   "print" => Tokens.PRINT(!pos, !pos)
                 |   "_" => Tokens.OPunder(!pos, !pos)
-                |   "ISE" => Tokens.ISE(!pos, !pos)
+                |   "ise" => Tokens.ISE(!pos, !pos)
                 |   _ => Tokens.NAME (yytext, !pos, !pos));
 "!"         => (Tokens.OPnot(!pos, !pos));
 "-"         => (Tokens.OPminus(!pos, !pos));
@@ -83,4 +84,5 @@ comment = "(*".+"*)";
 ")"         => (Tokens.Rpar(!pos, !pos));
 "["         => (Tokens.Lbracket(!pos, !pos));
 "]"         => (Tokens.Rbracket(!pos, !pos));
+
 
