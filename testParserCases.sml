@@ -4,8 +4,8 @@ CM.make("$/ml-yacc-lib.cm");
 use "Environ.sml";
 use "Absyn.sml";
 use "PlcParserAux.sml";
-use "PlcParser.y.sig";
-use "PlcParser.y.sml";
+use "PlcParser.yacc.sig";
+use "PlcParser.yacc.sml";
 use "PlcLexer.lex.sml";
 use "Parse.sml";
 
@@ -459,7 +459,7 @@ val cases =
 fun result (d:(string * expr) list) = 
     case d of 
          h::[] => (fromString (#1 h) = (#2 h))::[]
-      |  h::t => (fromString (#1 h) = #2 h)::result(t);
+      |  h::t => (fromString (#1 h) = (#2 h))::result(t);
 
 result cases;
 

@@ -2,7 +2,7 @@
 %%
 
 %name PlcParser
-%verbose 
+
 %pos int
 
 %term  NUM of int | NAME of string | TRUE | FALSE 

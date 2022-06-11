@@ -28,15 +28,26 @@ fun eof () = Tokens.EOF(!pos,!pos)
 fun init() = ()
 %%
 %header (functor PlcLexerFun(structure Tokens: PlcParser_TOKENS));
+
+
 digit=[0-9];
 name=[a-z A-Z "_"][a-z A-Z "_" 0-9]*;
+
 ws = [\ \t \n];
-anyChar = .;
-comment = "(*"{anyChar}*"*)";
+
+%s COMMENT;
+simples = [^*];
+complex = ("*"[^)]);
+
+
 
 %%
 
-{comment}+   => (lex());
+"(*"  => (YYBEGIN COMMENT; lex());
+<COMMENT> (\n)+ => (lex());
+<COMMENT> {simples}+ => (lex());
+<COMMENT> {complex}+ => (lex());
+<COMMENT> "*)" => (YYBEGIN INITIAL; lex());
 {ws}+       => (lex());
 {digit}+    => (Tokens.NUM (valOf (Int.fromString yytext), !pos, !pos));
 {name}+     => (case yytext of
