@@ -29,11 +29,11 @@ fun teval (expr:expr) (env:plcType env):plcType =
             in
                 if t1 = t2 then
                     case t1 of
-                        FunT(t1, t2) => raise UnknownType
+                        FunT(t1, t2) => raise CallTypeMisM
                     |   SeqT(t)=> (case t of 
-                                        FunT(t1, t2) => raise UnknownType 
+                                        FunT(t1, t2) => raise CallTypeMisM 
                                    |    _ => BoolT )
-                    |   ListT(list)=> if IsFunT(list) then raise UnknownType  else BoolT
+                    |   ListT(list)=> if IsFunT(list) then raise CallTypeMisM  else BoolT
                     |   _    => BoolT
                 else
                     raise NotEqTypes
@@ -117,7 +117,8 @@ fun teval (expr:expr) (env:plcType env):plcType =
             |   "ise"=> (case (teval exp env) of 
                             SeqT(t) => BoolT
                        |    _   => raise CallTypeMisM)
-            |   "print"=> ListT [])
+            |   "print"=> ListT []
+            |   _   => raise UnknownType)
         |   Prim2(opr, exp1, exp2) =>
             (case opr of
                 "&&"=> prim2Type(exp1, exp2, BoolT, BoolT)
@@ -137,7 +138,8 @@ fun teval (expr:expr) (env:plcType env):plcType =
                                 SeqT(t)=> if t = t1 then t2 else raise CallTypeMisM
                             |   _   => raise CallTypeMisM
                        end
-            |   ";" => (teval exp2 env))
+            |   ";" => (teval exp2 env)
+            |   _   => raise UnknownType)
         |   If(bExp, tExp, eExp) => 
                 if (teval bExp env) = BoolT then 
                     if (teval tExp env) = (teval eExp env) then 
