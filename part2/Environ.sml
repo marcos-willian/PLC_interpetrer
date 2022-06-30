@@ -1,8 +1,8 @@
 (*Environ*)
 
-exception SymbolNotFound
+exception SymbolNotFound of string
 
 type 'a env = (string * 'a) list
 
-fun lookup [] id = raise SymbolNotFound
+fun lookup [] id = raise SymbolNotFound id
   | lookup ((k:string, v)::t) id = if k = id then v else lookup t id;
