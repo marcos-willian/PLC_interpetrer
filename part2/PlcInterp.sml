@@ -122,4 +122,4 @@ fun eval (expr:expr) (env:plcVal env) : plcVal =
                     ListV(list) => valueIndex(i, list)
                 |   _ => raise Impossible)
         |   Anon(typePar, namePar, exp) => Clos("", namePar, exp, env)
-    end
+    end;
