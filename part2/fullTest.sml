@@ -36,7 +36,6 @@ fun writeResult r =
 (* Test interpreter *)
 map (fn x => writeResult (#2(x))) cases;
 
-
 TextIO.closeOut interpFile;
 
 OS.Process.exit(OS.Process.success);

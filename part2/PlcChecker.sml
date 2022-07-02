@@ -49,10 +49,13 @@ fun teval (expr:expr) (env:plcType env):plcType =
                             else 
                                 raise MatchResTypeDiff
                 |   SOME exp1 => case e2 of
-                                    NONE => if (teval r1 env) = (teval r2 env) then 
-                                                matchTypeIsCorrec(cond, (e2, r2)::t)
-                                            else 
-                                                raise MatchResTypeDiff
+                                    NONE => if (teval exp1 env) = (teval cond env) then
+                                                if (teval r1 env) = (teval r2 env) then 
+                                                    matchTypeIsCorrec(cond, (e2, r2)::t)
+                                                else 
+                                                    raise MatchResTypeDiff
+                                            else
+                                                raise MatchCondTypesDiff
                                  |  SOME exp2 => 
                                         if (teval exp1 env) = (teval exp2 env) then
                                             if (teval exp2 env) = (teval cond env) then 

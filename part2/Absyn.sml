@@ -32,13 +32,10 @@ datatype plcVal =
   | Clos of string * string * expr * plcVal env;
 
 (* Convert a list into a string *)
-fun list2string (conv, (h::ts)) =
-  let
-    fun aux [] = ""
-      | aux (hd::tl) = ", " ^ conv(hd) ^ aux (tl);
-  in
-    conv(h) ^ aux (ts)
-  end;
+fun list2string (conv, l) =
+  case l of
+      [] => ""
+    | h::ts => conv(h) ^ ", " ^ list2string (conv, ts);
 
 (* Convert a plcType into a string *)
 fun type2string t =
